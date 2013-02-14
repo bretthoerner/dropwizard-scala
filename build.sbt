@@ -11,7 +11,7 @@ scalacOptions ++= Seq("-encoding", "UTF-8", "-deprecation", "-unchecked", "-targ
 
 libraryDependencies ++= Seq(
     "com.yammer.dropwizard" % "dropwizard-core" % "0.6.1",
-    "com.fasterxml.jackson.module" % "jackson-module-scala" % "2.1.2",
+    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.1.3",
     "com.timgroup" % "java-statsd-client" % "2.0.0",
     "com.yammer.metrics" %% "metrics-scala" % "2.2.0"
 )
