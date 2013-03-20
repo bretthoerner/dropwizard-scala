@@ -5,7 +5,7 @@ version       := "0.6.2"
 
 organization  := "com.yammer.dropwizard"
 
-scalaVersion  := "2.10.0"
+scalaVersion  := "2.10.1"
 
 scalacOptions ++= Seq("-encoding", "UTF-8", "-deprecation", "-unchecked", "-target:jvm-1.6", "-feature", "-Ywarn-adapted-args", "-language:higherKinds")
 
