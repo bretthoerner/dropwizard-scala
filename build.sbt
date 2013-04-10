@@ -13,7 +13,9 @@ libraryDependencies ++= Seq(
     "com.yammer.dropwizard" % "dropwizard-core" % "0.6.2",
     "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.1.3",
     "com.timgroup" % "java-statsd-client" % "2.0.0",
-    "com.massrelevance" %% "metrics-scala" % "2.2.0"
+    "com.massrelevance" %% "metrics-scala" % "2.2.0",
+    "org.specs2" %% "specs2" % "1.14" % "test",
+    "org.mockito" % "mockito-core" % "1.9.5" % "test"
 )
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")

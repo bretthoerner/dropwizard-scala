@@ -1,32 +1,29 @@
 package com.yammer.dropwizard.scala.params.tests
 
-import org.junit.Test
 import javax.ws.rs.WebApplicationException
-import com.simple.simplespec.Spec
 import com.yammer.dropwizard.scala.params.BooleanParam
+import org.specs2.mutable._
+import org.specs2.mock.Mockito
 
-class BooleanParamTest extends Spec {
+class BooleanParamTest extends Specification with Mockito {
 
-  class `A valid boolean parameter` {
+  "A valid boolean parameter" should {
     val param = BooleanParam("true")
 
-    @Test def `has a boolean value` = {
-      param.value.must(be(true))
+    "has a boolean value" in {
+      param.value.must(beEqualTo(true))
     }
   }
 
-  class `An invalid boolean parameter` {
-    @Test def `throws a WebApplicationException with an error message` = {
-      evaluating {
-        BooleanParam("poop")
-      }.must(throwAnExceptionLike {
+  "An invalid boolean parameter" should {
+    "throws a WebApplicationException with an error message" in {
+      BooleanParam("poop").must(throwA[Exception].like {
         case e: WebApplicationException => {
           val response = e.getResponse
-          response.getStatus.must(be(400))
-          response.getEntity.must(be("Invalid parameter: poop (Must be \"true\" or \"false\".)"))
+          response.getStatus.must(beEqualTo(400))
+          response.getEntity.must(beEqualTo("Invalid parameter: poop (Must be \"true\" or \"false\".)"))
         }
       })
     }
   }
-
 }

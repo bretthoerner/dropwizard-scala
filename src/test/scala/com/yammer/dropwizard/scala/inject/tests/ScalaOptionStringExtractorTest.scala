@@ -1,50 +1,49 @@
 package com.yammer.dropwizard.scala.inject.tests
 
-import org.junit.Test
 import com.sun.jersey.core.util.MultivaluedMapImpl
-import com.simple.simplespec.Spec
 import com.yammer.dropwizard.scala.inject.ScalaOptionStringExtractor
+import org.specs2.mutable._
+import org.specs2.mock.Mockito
 
-class ScalaOptionStringExtractorTest extends Spec {
+class ScalaOptionStringExtractorTest extends Specification with Mockito {
 
-  class `Extracting a parameter` {
+   "Extracting a parameter" should {
     val extractor = new ScalaOptionStringExtractor("name", "default")
 
-    @Test def `has a name` = {
+    "has a name" in {
       extractor.getName.must(be("name"))
     }
 
-    @Test def `has a default value` = {
+    "has a default value" in {
       extractor.getDefaultStringValue.must(be("default"))
     }
 
-    @Test def `extracts the first of a set of parameter values` = {
+    "extracts the first of a set of parameter values" in {
       val params = new MultivaluedMapImpl()
       params.add("name", "one")
       params.add("name", "two")
       params.add("name", "three")
 
       val result = extractor.extract(params)
-      result.must(be(Some("one")))
+      result.must(beEqualTo(Some("one")))
     }
 
-    @Test def `uses the default value if no parameter exists` = {
+    "uses the default value if no parameter exists" in {
       val params = new MultivaluedMapImpl()
 
       val result = extractor.extract(params)
-      result.must(be(Some("default")))
+      result.must(beEqualTo(Some("default")))
     }
   }
 
-  class `Extracting a parameter with no default value` {
+  "Extracting a parameter with no default value" should {
     val extractor = new ScalaOptionStringExtractor("name", null)
 
-    @Test def `returns None` = {
+    "returns None" in {
       val params = new MultivaluedMapImpl()
 
       val result = extractor.extract(params)
-      result.must(be(None))
+      result.must(beEqualTo(None))
     }
   }
-
 }

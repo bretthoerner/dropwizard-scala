@@ -1,32 +1,29 @@
 package com.yammer.dropwizard.scala.params.tests
 
-import org.junit.Test
 import javax.ws.rs.WebApplicationException
-import com.simple.simplespec.Spec
 import com.yammer.dropwizard.scala.params.IntParam
+import org.specs2.mutable._
+import org.specs2.mock.Mockito
 
-class IntParamTest extends Spec {
+class IntParamTest extends Specification with Mockito {
 
-  class `A valid int parameter` {
+  "A valid int parameter" should {
     val param = IntParam("40")
 
-    @Test def `has an int value` = {
-      param.value.must(be(40))
+    "has an int value" in {
+      param.value.must(beEqualTo(40))
     }
   }
 
-  class `An invalid int parameter` {
-    @Test def `throws a WebApplicationException with an error message` = {
-      evaluating {
-        IntParam("poop")
-      }.must(throwAnExceptionLike {
+  "An invalid int parameter" should {
+    "throws a WebApplicationException with an error message" in {
+      IntParam("poop").must(throwA[Exception].like {
         case e: WebApplicationException => {
           val response = e.getResponse
-          response.getStatus.must(be(400))
-          response.getEntity.must(be("Invalid parameter: poop (Must be an integer value.)"))
+          response.getStatus.must(beEqualTo(400))
+          response.getEntity.must(beEqualTo("Invalid parameter: poop (Must be an integer value.)"))
         }
       })
     }
   }
-
 }

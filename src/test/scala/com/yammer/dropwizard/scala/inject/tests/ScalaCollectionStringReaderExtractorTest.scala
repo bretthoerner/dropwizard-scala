@@ -1,49 +1,49 @@
 package com.yammer.dropwizard.scala.inject.tests
 
-import org.junit.Test
 import com.sun.jersey.core.util.MultivaluedMapImpl
-import com.simple.simplespec.Spec
 import com.yammer.dropwizard.scala.inject.ScalaCollectionStringReaderExtractor
+import org.specs2.mutable._
+import org.specs2.mock.Mockito
 
-class ScalaCollectionStringReaderExtractorTest extends Spec {
+class ScalaCollectionStringReaderExtractorTest extends Specification with Mockito {
 
-  class `Extracting a parameter` {
+  "Extracting a parameter" should {
     val extractor = new ScalaCollectionStringReaderExtractor[Set]("name", "default", Set)
 
-    @Test def `has a name` = {
+    "has a name" in {
       extractor.getName.must(be("name"))
     }
 
-    @Test def `has a default value` = {
+    "has a default value" in {
       extractor.getDefaultStringValue.must(be("default"))
     }
 
-    @Test def `extracts a set of parameter values` = {
+    "extracts a set of parameter values" in {
       val params = new MultivaluedMapImpl()
       params.add("name", "one")
       params.add("name", "two")
       params.add("name", "three")
 
-      val result = extractor.extract(params).asInstanceOf[Set[String]]
-      result.must(be(Set("one", "two", "three")))
+      val result = extractor.extract(params)
+      result.must(beEqualTo(Set("one", "two", "three")))
     }
 
-    @Test def `uses the default value if no parameter exists` = {
+    "uses the default value if no parameter exists" in {
       val params = new MultivaluedMapImpl()
 
-      val result = extractor.extract(params).asInstanceOf[Set[String]]
-      result.must(be(Set("default")))
+      val result = extractor.extract(params)
+      result.must(beEqualTo(Set("default")))
     }
   }
 
-  class `Extracting a parameter with no default value` {
+  "Extracting a parameter with no default value" should {
     val extractor = new ScalaCollectionStringReaderExtractor[Set]("name", null, Set)
 
-    @Test def `returns an empty collection` = {
+    "returns an empty collection" in {
       val params = new MultivaluedMapImpl()
 
-      val result = extractor.extract(params).asInstanceOf[Set[String]]
-      result.must(be(Set.empty[String]))
+      val result = extractor.extract(params)
+      result.must(beEqualTo(Set.empty[String]))
     }
   }
 
