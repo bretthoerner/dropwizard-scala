@@ -12,7 +12,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl
  * collection instance. If defaultValue is null and no parameter exists, returns
  * an empty collection.
  */
-class ScalaCollectionStringReaderExtractor[+CC[X] <: Traversable[X]](companion: GenericCompanion[CC],
+class ScalaCollectionExtractor[+CC[X] <: Traversable[X]](companion: GenericCompanion[CC],
                                                                      extractor: MultivaluedParameterExtractor)
   extends MultivaluedParameterExtractor {
 

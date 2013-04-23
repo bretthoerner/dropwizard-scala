@@ -29,7 +29,7 @@ class ScalaCollectionsQueryParamInjectableProvider (@Context services: ProviderS
     if (classOf[Option[String]].isAssignableFrom(klass)) {
       new ScalaOptionExtractor(extractor)
     } else collectionCompanionFor(klass) match {
-      case Some(companion) => new ScalaCollectionStringReaderExtractor(companion, extractor)
+      case Some(companion) => new ScalaCollectionExtractor(companion, extractor)
       case None => null
     }
   }

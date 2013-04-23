@@ -1,15 +1,15 @@
 package com.yammer.dropwizard.scala.inject.tests
 
 import com.sun.jersey.core.util.MultivaluedMapImpl
-import com.yammer.dropwizard.scala.inject.ScalaCollectionStringReaderExtractor
+import com.yammer.dropwizard.scala.inject.ScalaCollectionExtractor
 import org.specs2.mutable._
 import org.specs2.mock.Mockito
 import com.yammer.dropwizard.scala.util.StringExtractor
 
-class ScalaCollectionStringReaderExtractorTest extends Specification with Mockito {
+class ScalaCollectionExtractorTest extends Specification with Mockito {
 
   "Extracting a parameter" should {
-    val extractor = new ScalaCollectionStringReaderExtractor(Set, new StringExtractor("name", "default"))
+    val extractor = new ScalaCollectionExtractor(Set, new StringExtractor("name", "default"))
 
     "has a name" in {
       extractor.getName.must(be("name"))
@@ -38,7 +38,7 @@ class ScalaCollectionStringReaderExtractorTest extends Specification with Mockit
   }
 
   "Extracting a parameter with no default value" should {
-    val extractor = new ScalaCollectionStringReaderExtractor(Set, new StringExtractor("name"))
+    val extractor = new ScalaCollectionExtractor(Set, new StringExtractor("name"))
 
     "returns an empty collection" in {
       val params = new MultivaluedMapImpl()
