@@ -9,6 +9,7 @@ import org.specs2.mutable._
 import org.specs2.mock.Mockito
 import com.yammer.dropwizard.scala.inject.{ScalaCollectionQueryParamInjectable, ScalaCollectionsQueryParamInjectableProvider}
 import java.lang.reflect.{ParameterizedType, Type}
+import collection.{immutable, mutable}
 
 class ScalaCollectionsQueryParamInjectableProviderTest extends Specification with Mockito {
 
@@ -33,46 +34,92 @@ class ScalaCollectionsQueryParamInjectableProviderTest extends Specification wit
       provider.getScope.must(be(ComponentScope.PerRequest))
     }
 
-    "returns an injectable for Seq instances" in {
-      val param = parameter[Seq[String]]
-      val injectable = provider.getInjectable(context, queryParam, param).asInstanceOf[ScalaCollectionQueryParamInjectable]
+    "returns an injectable for Option instances" in {
+      getValue[Option[String]] must beEqualTo(Some("one"))
+    }
 
-      injectable.getValue(httpContext).must(beEqualTo(Seq("one", "two", "three")))
+    "returns an injectable for immutable.HashSet instances" in {
+      getValue[immutable.HashSet[String]] must beEqualTo(immutable.HashSet("one", "two", "three"))
     }
 
     "returns an injectable for List instances" in {
-      val param = parameter[List[String]]
-      val injectable = provider.getInjectable(context, queryParam, param).asInstanceOf[ScalaCollectionQueryParamInjectable]
-
-      injectable.getValue(httpContext).must(beEqualTo(List("one", "two", "three")))
+      getValue[List[String]] must beEqualTo(List("one", "two", "three"))
     }
 
-    "returns an injectable for Vector instances" in {
-      val param = parameter[Vector[String]]
-      val injectable = provider.getInjectable(context, queryParam, param).asInstanceOf[ScalaCollectionQueryParamInjectable]
+    "returns an injectable for ListSet instances" in {
+      getValue[immutable.ListSet[String]] must beEqualTo(immutable.ListSet("one", "two", "three"))
+    }
 
-      injectable.getValue(httpContext).must(beEqualTo(Vector("one", "two", "three")))
+    "returns an injectable for immutable.Queue instances" in {
+      getValue[immutable.Queue[String]] must beEqualTo(immutable.Queue("one", "two", "three"))
+    }
+
+    "returns an injectable for immutable.Set instances" in {
+      getValue[immutable.Set[String]] must beEqualTo(immutable.Set("one", "two", "three"))
+    }
+
+    "returns an injectable for immutable.Vector instances" in {
+      getValue[immutable.Vector[String]] must beEqualTo(immutable.Vector("one", "two", "three"))
     }
 
     "returns an injectable for IndexedSeq instances" in {
-      val param = parameter[IndexedSeq[String]]
-      val injectable = provider.getInjectable(context, queryParam, param).asInstanceOf[ScalaCollectionQueryParamInjectable]
-
-      injectable.getValue(httpContext).must(beEqualTo(IndexedSeq("one", "two", "three")))
+      getValue[IndexedSeq[String]] must beEqualTo(IndexedSeq("one", "two", "three"))
     }
 
-    "return an injectable for Set instances" in {
-      val param = parameter[Set[String]]
-      val injectable = provider.getInjectable(context, queryParam, param).asInstanceOf[ScalaCollectionQueryParamInjectable]
-
-      injectable.getValue(httpContext).must(beEqualTo(Set("one", "two", "three")))
+    "returns an injectable for mutable.ArraySeq instances" in {
+      getValue[mutable.ArraySeq[String]] must beEqualTo(mutable.ArraySeq("one", "two", "three"))
     }
 
-    "returns an injectable for Option instances" in {
-      val param = parameter[Option[String]]
-      val injectable = provider.getInjectable(context, queryParam, param).asInstanceOf[ScalaCollectionQueryParamInjectable]
+    "returns an injectable for mutable.Buffer instances" in {
+      getValue[mutable.Buffer[String]] must beEqualTo(mutable.Buffer("one", "two", "three"))
+    }
 
-      injectable.getValue(httpContext).must(beEqualTo(Some("one")))
+    "returns an injectable for mutable.HashSet instances" in {
+      getValue[mutable.HashSet[String]] must beEqualTo(mutable.HashSet("one", "two", "three"))
+    }
+
+    "returns an injectable for mutable.IndexedSeq instances" in {
+      getValue[mutable.IndexedSeq[String]] must beEqualTo(mutable.IndexedSeq("one", "two", "three"))
+    }
+
+    "returns an injectable for mutable.LinearSeq instances" in {
+      getValue[mutable.LinearSeq[String]] must beEqualTo(mutable.LinearSeq("one", "two", "three"))
+    }
+
+    "returns an injectable for mutable.LinkedHashSet instances" in {
+      getValue[mutable.LinkedHashSet[String]] must beEqualTo(mutable.LinkedHashSet("one", "two", "three"))
+    }
+
+    "returns an injectable for mutable.ListBuffer instances" in {
+      getValue[mutable.ListBuffer[String]] must beEqualTo(mutable.ListBuffer("one", "two", "three"))
+    }
+
+    "returns an injectable for mutable.MutableList instances" in {
+      getValue[mutable.MutableList[String]] must beEqualTo(mutable.MutableList("one", "two", "three"))
+    }
+
+    "returns an injectable for mutable.Queue instances" in {
+      getValue[mutable.Queue[String]] must beEqualTo(mutable.Queue("one", "two", "three"))
+    }
+
+    "returns an injectable for mutable.ResizeableArray instances" in {
+      getValue[mutable.ResizableArray[String]] must beEqualTo(mutable.ResizableArray("one", "two", "three"))
+    }
+
+    "return an injectable for mutable.Set instances" in {
+      getValue[mutable.Set[String]] must beEqualTo(mutable.Set("one", "two", "three"))
+    }
+
+    "returns an injectable for Seq instances" in {
+      getValue[Seq[String]] must beEqualTo(Seq("one", "two", "three"))
+    }
+
+    "returns an injectable for Stream instances" in {
+      getValue[Stream[String]] must beEqualTo(Stream("one", "two", "three"))
+    }
+
+    def getValue[T : Manifest]: AnyRef = {
+      provider.getInjectable(context, queryParam, parameter[T]).asInstanceOf[ScalaCollectionQueryParamInjectable].getValue(httpContext)
     }
   }
 

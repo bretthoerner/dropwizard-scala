@@ -7,6 +7,9 @@ import com.sun.jersey.core.spi.component.{ComponentScope, ComponentContext}
 import com.sun.jersey.spi.inject.{Injectable, InjectableProvider}
 import com.sun.jersey.server.impl.model.parameter.multivalued.MultivaluedParameterExtractor
 import java.lang.reflect.{ParameterizedType, Type}
+import com.fasterxml.jackson.module.scala.util.CompanionSorter
+import collection.{immutable, mutable}
+import collection.generic.GenericCompanion
 
 @Provider
 class ScalaCollectionsQueryParamInjectableProvider extends InjectableProvider[QueryParam, Parameter] {
@@ -25,19 +28,12 @@ class ScalaCollectionsQueryParamInjectableProvider extends InjectableProvider[Qu
       case pt: ParameterizedType => pt.getRawType.asInstanceOf[Class[_]]
     }
 
-    if (klass == classOf[Seq[String]]) {
-      new ScalaCollectionStringReaderExtractor(name, default, Seq)
-    } else if (klass == classOf[List[String]]) {
-      new ScalaCollectionStringReaderExtractor(name, default, List)
-    } else if (klass == classOf[Vector[String]]) {
-      new ScalaCollectionStringReaderExtractor(name, default, Vector)
-    } else if (klass == classOf[IndexedSeq[String]]) {
-      new ScalaCollectionStringReaderExtractor(name, default, IndexedSeq)
-    } else if (klass == classOf[Set[String]]) {
-      new ScalaCollectionStringReaderExtractor(name, default, Set)
-    } else if (klass == classOf[Option[String]]) {
+    if (classOf[Option[String]].isAssignableFrom(klass)) {
       new ScalaOptionStringExtractor(name, default)
-    } else null
+    } else collectionCompanionFor(klass) match {
+      case Some(companion) => new ScalaCollectionStringReaderExtractor(name, default, companion)
+      case None => null
+    }
   }
 
   private def buildInjectable(name: String, default: String, decode: Boolean, typ: Type): Injectable[_ <: Object] = {
@@ -46,4 +42,31 @@ class ScalaCollectionsQueryParamInjectableProvider extends InjectableProvider[Qu
       new ScalaCollectionQueryParamInjectable(extractor, decode)
     } else null
   }
+
+  /* Companion sorting guarantees that the first match is the most specific if multiple classes could match. */
+  private[this] val COLLECTION_COMPANIONS = new CompanionSorter[Iterable]()
+    .add(immutable.HashSet)
+    .add(immutable.List)
+    .add(immutable.ListSet)
+    .add(immutable.Queue)
+    .add(immutable.Set)
+    .add(immutable.Vector)
+    .add(IndexedSeq)
+    .add(mutable.ArraySeq)
+    .add(mutable.Buffer)
+    .add(mutable.HashSet)
+    .add(mutable.IndexedSeq)
+    .add(mutable.LinearSeq)
+    .add(mutable.LinkedHashSet)
+    .add(mutable.ListBuffer)
+    .add(mutable.MutableList)
+    .add(mutable.Queue)
+    .add(mutable.ResizableArray)
+    .add(mutable.Set)
+    .add(Seq)
+    .add(Stream)
+    .toList
+
+  def collectionCompanionFor(klass: Class[_]): Option[GenericCompanion[Iterable]] =
+    COLLECTION_COMPANIONS find { _._1.isAssignableFrom(klass) } map { _._2 }
 }
