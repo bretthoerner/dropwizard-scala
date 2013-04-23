@@ -1,14 +1,15 @@
 package com.yammer.dropwizard.scala.inject.tests
 
 import com.sun.jersey.core.util.MultivaluedMapImpl
-import com.yammer.dropwizard.scala.inject.ScalaOptionStringExtractor
+import com.yammer.dropwizard.scala.inject.ScalaOptionExtractor
 import org.specs2.mutable._
 import org.specs2.mock.Mockito
+import com.yammer.dropwizard.scala.util.StringExtractor
 
-class ScalaOptionStringExtractorTest extends Specification with Mockito {
+class ScalaOptionExtractorTest extends Specification with Mockito {
 
    "Extracting a parameter" should {
-    val extractor = new ScalaOptionStringExtractor("name", "default")
+    val extractor = new ScalaOptionExtractor(new StringExtractor("name", "default"))
 
     "has a name" in {
       extractor.getName.must(be("name"))
@@ -37,7 +38,7 @@ class ScalaOptionStringExtractorTest extends Specification with Mockito {
   }
 
   "Extracting a parameter with no default value" should {
-    val extractor = new ScalaOptionStringExtractor("name", null)
+    val extractor = new ScalaOptionExtractor(new StringExtractor("name"))
 
     "returns None" in {
       val params = new MultivaluedMapImpl()

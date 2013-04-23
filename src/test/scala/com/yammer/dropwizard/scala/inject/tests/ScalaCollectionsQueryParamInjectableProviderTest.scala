@@ -2,7 +2,7 @@ package com.yammer.dropwizard.scala.inject.tests
 
 import javax.ws.rs.QueryParam
 import com.sun.jersey.api.model.Parameter
-import com.sun.jersey.core.spi.component.{ComponentContext, ComponentScope}
+import com.sun.jersey.core.spi.component.{ProviderServices, ComponentContext, ComponentScope}
 import com.sun.jersey.core.util.MultivaluedMapImpl
 import com.sun.jersey.api.core.{HttpContext, ExtendedUriInfo}
 import org.specs2.mutable._
@@ -27,7 +27,7 @@ class ScalaCollectionsQueryParamInjectableProviderTest extends Specification wit
     val context = mock[ComponentContext]
     val queryParam = mock[QueryParam]
 
-    val provider = new ScalaCollectionsQueryParamInjectableProvider
+    val provider = new ScalaCollectionsQueryParamInjectableProvider(mock[ProviderServices])
 
 
     "has a per-request scope" in {
