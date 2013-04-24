@@ -69,7 +69,15 @@ class ScalaCollectionsQueryParamInjectableProvider (@Context services: ProviderS
     COLLECTION_COMPANIONS find { _._1.isAssignableFrom(klass) } map { _._2 }
 
   private[this] def unpack(param: Parameter, typ: ParameterizedType): Parameter = {
-    val typeParameter: Type = typ.getActualTypeArguments.head
+    /**
+     * TODO: This does not work as intended yet. Scala method parameters appear to lose their type parameters even
+     * though they're still around for Java methods. I need to further look into how Jackson Scala Module gets this to
+     * work. So for now assume it's String which is backwards-compatible.
+     */
+    val typeParameter: Type = {
+      val t = typ.getActualTypeArguments.head
+      if (t == classOf[Object]) classOf[String] else t
+    }
     new Parameter(param.getAnnotations, param.getAnnotation, param.getSource, param.getSourceName, typeParameter, typeParameter.asInstanceOf[Class[_]], param.isEncoded, param.getDefaultValue)
   }
 
