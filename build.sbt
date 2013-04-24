@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
     "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.1.3",
     "com.timgroup" % "java-statsd-client" % "2.0.0",
     "com.massrelevance" %% "metrics-scala" % "2.2.0",
-    "org.specs2" %% "specs2" % "1.14" % "test",
+    "org.scalatest" %% "scalatest" % "2.0.M5b" % "test",
     "org.mockito" % "mockito-core" % "1.9.5" % "test"
 )
 
