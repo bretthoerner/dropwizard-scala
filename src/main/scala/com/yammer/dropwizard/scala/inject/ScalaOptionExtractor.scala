@@ -9,14 +9,10 @@ import com.sun.jersey.server.impl.model.parameter.multivalued.MultivaluedParamet
  * value if no parameter exists. If defaultValue is null and no parameter
  * exists, returns None.
  */
-class ScalaOptionStringExtractor(parameter: String, defaultValue: String)
-  extends MultivaluedParameterExtractor {
-  private val default = Option(defaultValue)
+class ScalaOptionExtractor(extractor: MultivaluedParameterExtractor) extends MultivaluedParameterExtractor {
+  def getName = extractor.getName
 
-  def getName = parameter
+  def getDefaultStringValue = extractor.getDefaultStringValue
 
-  def getDefaultStringValue = defaultValue
-
-  def extract(parameters: MultivaluedMap[String, String]) =
-    Option(parameters.getFirst(parameter)).orElse(default)
+  def extract(parameters: MultivaluedMap[String, String]) = Option(extractor.extract(parameters))
 }
