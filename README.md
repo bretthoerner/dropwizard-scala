@@ -1,7 +1,9 @@
-Dropwizard-Scala
+Dropwizard-Scala 
 ================
 
 A fork of the original (now unmaintained) dropwizard-scala subproject of [Dropwizard](https://github.com/codahale/dropwizard).
+
+[![Build Status](https://travis-ci.org/nbauernfeind/dropwizard-scala.png)](https://travis-ci.org/nbauernfeind/dropwizard-scala)
 
 ***
 

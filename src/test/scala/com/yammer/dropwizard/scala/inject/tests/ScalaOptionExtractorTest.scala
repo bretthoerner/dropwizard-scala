@@ -2,49 +2,44 @@ package com.yammer.dropwizard.scala.inject.tests
 
 import com.sun.jersey.core.util.MultivaluedMapImpl
 import com.yammer.dropwizard.scala.inject.ScalaOptionExtractor
-import org.specs2.mutable._
-import org.specs2.mock.Mockito
 import com.yammer.dropwizard.scala.util.StringExtractor
+import org.scalatest.FlatSpec
+import org.scalatest.matchers.ShouldMatchers
 
-class ScalaOptionExtractorTest extends Specification with Mockito {
+class ScalaOptionExtractorTest extends FlatSpec with ShouldMatchers {
+  val extractor = new ScalaOptionExtractor(new StringExtractor("name", "default"))
 
-   "Extracting a parameter" should {
-    val extractor = new ScalaOptionExtractor(new StringExtractor("name", "default"))
-
-    "has a name" in {
-      extractor.getName.must(be("name"))
-    }
-
-    "has a default value" in {
-      extractor.getDefaultStringValue.must(be("default"))
-    }
-
-    "extracts the first of a set of parameter values" in {
-      val params = new MultivaluedMapImpl()
-      params.add("name", "one")
-      params.add("name", "two")
-      params.add("name", "three")
-
-      val result = extractor.extract(params)
-      result.must(beEqualTo(Some("one")))
-    }
-
-    "uses the default value if no parameter exists" in {
-      val params = new MultivaluedMapImpl()
-
-      val result = extractor.extract(params)
-      result.must(beEqualTo(Some("default")))
-    }
+  "Extracting a parameter" should "have a name" in {
+    extractor.getName should be("name")
   }
 
-  "Extracting a parameter with no default value" should {
+  it should "have a default value" in {
+    extractor.getDefaultStringValue should be("default")
+  }
+
+  it should "extract the first of a set of parameter values" in {
+    val params = new MultivaluedMapImpl()
+    params.add("name", "one")
+    params.add("name", "two")
+    params.add("name", "three")
+
+    val result = extractor.extract(params)
+    result should equal (Some("one"))
+  }
+
+  it should "use the default value if no parameter exists" in {
+    val params = new MultivaluedMapImpl()
+
+    val result = extractor.extract(params)
+    result should equal (Some("default"))
+  }
+
+  "Extracting a parameter with no default value" should "return None" in {
     val extractor = new ScalaOptionExtractor(new StringExtractor("name"))
 
-    "returns None" in {
-      val params = new MultivaluedMapImpl()
+    val params = new MultivaluedMapImpl()
 
-      val result = extractor.extract(params)
-      result.must(beEqualTo(None))
-    }
+    val result = extractor.extract(params)
+    result should equal (None)
   }
 }
