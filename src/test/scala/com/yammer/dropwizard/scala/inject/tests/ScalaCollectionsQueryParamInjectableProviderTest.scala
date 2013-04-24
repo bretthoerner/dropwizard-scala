@@ -122,14 +122,14 @@ class ScalaCollectionsQueryParamInjectableProviderTest extends FlatSpec with Sho
   }
 
   private[this] def parameter[T : Manifest]: Parameter = {
-    new Parameter(Array(), null, null, "name", typeFromManifest(manifest[T]), manifest[T].runtimeClass, false, "default")
+    new Parameter(Array(), null, null, "name", typeFromManifest(manifest[T]), manifest[T].erasure, false, "default")
   }
 
   private[this] def typeFromManifest(m: Manifest[_]): Type = {
-    if (m.typeArguments.isEmpty) {m.runtimeClass}
+    if (m.typeArguments.isEmpty) {m.erasure}
     else {
       new ParameterizedType {
-        def getRawType = m.runtimeClass
+        def getRawType = m.erasure
 
         def getActualTypeArguments = m.typeArguments.map(typeFromManifest).toArray
 
