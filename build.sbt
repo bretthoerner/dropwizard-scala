@@ -1,7 +1,7 @@
 // Basic project information
 name          := "dropwizard-scala"
 
-version       := "0.6.2-1-SNAPSHOT"
+version       := "0.6.2-1"
 
 organization  := "com.massrelevance"
 
