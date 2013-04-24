@@ -1,14 +1,15 @@
 package com.yammer.dropwizard.scala.inject.tests
 
 import com.sun.jersey.core.util.MultivaluedMapImpl
-import com.yammer.dropwizard.scala.inject.ScalaCollectionStringReaderExtractor
+import com.yammer.dropwizard.scala.inject.ScalaOptionExtractor
 import org.specs2.mutable._
 import org.specs2.mock.Mockito
+import com.yammer.dropwizard.scala.util.StringExtractor
 
-class ScalaCollectionStringReaderExtractorTest extends Specification with Mockito {
+class ScalaOptionExtractorTest extends Specification with Mockito {
 
-  "Extracting a parameter" should {
-    val extractor = new ScalaCollectionStringReaderExtractor[Set]("name", "default", Set)
+   "Extracting a parameter" should {
+    val extractor = new ScalaOptionExtractor(new StringExtractor("name", "default"))
 
     "has a name" in {
       extractor.getName.must(be("name"))
@@ -18,33 +19,32 @@ class ScalaCollectionStringReaderExtractorTest extends Specification with Mockit
       extractor.getDefaultStringValue.must(be("default"))
     }
 
-    "extracts a set of parameter values" in {
+    "extracts the first of a set of parameter values" in {
       val params = new MultivaluedMapImpl()
       params.add("name", "one")
       params.add("name", "two")
       params.add("name", "three")
 
       val result = extractor.extract(params)
-      result.must(beEqualTo(Set("one", "two", "three")))
+      result.must(beEqualTo(Some("one")))
     }
 
     "uses the default value if no parameter exists" in {
       val params = new MultivaluedMapImpl()
 
       val result = extractor.extract(params)
-      result.must(beEqualTo(Set("default")))
+      result.must(beEqualTo(Some("default")))
     }
   }
 
   "Extracting a parameter with no default value" should {
-    val extractor = new ScalaCollectionStringReaderExtractor[Set]("name", null, Set)
+    val extractor = new ScalaOptionExtractor(new StringExtractor("name"))
 
-    "returns an empty collection" in {
+    "returns None" in {
       val params = new MultivaluedMapImpl()
 
       val result = extractor.extract(params)
-      result.must(beEqualTo(Set.empty[String]))
+      result.must(beEqualTo(None))
     }
   }
-
 }

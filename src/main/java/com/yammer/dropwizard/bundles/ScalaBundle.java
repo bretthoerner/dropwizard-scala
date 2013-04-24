@@ -14,6 +14,6 @@ public class ScalaBundle implements Bundle {
 
     @Override
     public void run(Environment environment) {
-        environment.addProvider(new ScalaCollectionsQueryParamInjectableProvider());
+        environment.getJerseyResourceConfig().getClasses().add(ScalaCollectionsQueryParamInjectableProvider.class);
     }
 }
