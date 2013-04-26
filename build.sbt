@@ -14,7 +14,10 @@ libraryDependencies ++= Seq(
     "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.1.3",
     "com.timgroup" % "java-statsd-client" % "2.0.0",
     "org.scalatest" %% "scalatest" % "2.0.M5b" % "test",
-    "org.mockito" % "mockito-core" % "1.9.5" % "test"
+    "org.mockito" % "mockito-core" % "1.9.5" % "test",
+    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-core" % "1.17.1" % "test",
+    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-inmemory" % "1.17.1" % "test",
+    "com.sun.jersey" % "jersey-client" % "1.17.1" % "test"
 )
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
