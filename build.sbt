@@ -1,18 +1,22 @@
 // Basic project information
 name          := "dropwizard-scala"
 
-version       := "0.6.2-2-SNAPSHOT"
+version       := "0.7.0-SNAPSHOT"
 
 organization  := "com.massrelevance"
 
-crossScalaVersions := Seq("2.9.1", "2.9.2", "2.10.0")
+scalaVersion := "2.10.2"
 
-scalacOptions ++= Seq("-encoding", "UTF-8", "-deprecation", "-unchecked", "-target:jvm-1.5")
+crossScalaVersions := Seq("2.9.1", "2.9.2", "2.9.3", "2.10.2")
+
+scalacOptions ++= Seq("-encoding", "UTF-8", "-deprecation", "-unchecked", "-target:jvm-1.6")
+
+resolvers += "Local Maven Repository" at "file://" + Path.userHome.absolutePath + "/.m2/repository"
 
 libraryDependencies ++= Seq(
-    "com.yammer.dropwizard" % "dropwizard-core" % "0.6.2",
-    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.1.3",
-    "com.timgroup" % "java-statsd-client" % "2.0.0",
+    "com.codahale.dropwizard" % "dropwizard-core" % "0.7.0-SNAPSHOT",
+    "nl.grons" %% "metrics-scala" % "3.0.0",
+    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.2",
     "org.scalatest" %% "scalatest" % "2.0.M5b" % "test",
     "org.mockito" % "mockito-core" % "1.9.5" % "test",
     "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-core" % "1.17.1" % "test",
