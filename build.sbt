@@ -9,7 +9,16 @@ scalaVersion := "2.10.2"
 
 crossScalaVersions := Seq("2.9.1", "2.9.2", "2.9.3", "2.10.2")
 
-scalacOptions ++= Seq("-encoding", "UTF-8", "-deprecation", "-unchecked", "-target:jvm-1.6")
+scalacOptions <<= scalaVersion map { sv: String =>
+  sv match {
+    case s: String if s.startsWith("2.9") => {
+      Seq("-encoding", "UTF-8", "-deprecation", "-unchecked", "-target:jvm-1.5")
+    }
+    case _ => {
+      Seq("-encoding", "UTF-8", "-deprecation", "-unchecked", "-target:jvm-1.6", "-feature", "-Ywarn-adapted-args")
+    }
+  }
+}
 
 resolvers += "Local Maven Repository" at "file://" + Path.userHome.absolutePath + "/.m2/repository"
 
