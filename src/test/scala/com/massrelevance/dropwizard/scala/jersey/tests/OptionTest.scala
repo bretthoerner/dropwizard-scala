@@ -3,7 +3,7 @@ package com.massrelevance.dropwizard.scala.jersey.tests
 import com.sun.jersey.test.framework.{LowLevelAppDescriptor, AppDescriptor, JerseyTest}
 import javax.ws.rs.{Path, Produces, GET, QueryParam}
 import javax.ws.rs.core.MediaType
-import com.codahale.dropwizard.jersey.DropwizardResourceConfig
+import io.dropwizard.jersey.DropwizardResourceConfig
 import junit.framework.Assert
 import org.junit.Test
 import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamInjectableProvider

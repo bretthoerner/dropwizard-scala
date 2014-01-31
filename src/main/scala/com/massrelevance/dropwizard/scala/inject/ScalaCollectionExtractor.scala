@@ -1,5 +1,6 @@
 package com.massrelevance.dropwizard.scala.inject
 
+import scala.language.higherKinds
 import scala.collection.JavaConversions._
 import javax.ws.rs.core.MultivaluedMap
 import com.sun.jersey.server.impl.model.parameter.multivalued.MultivaluedParameterExtractor

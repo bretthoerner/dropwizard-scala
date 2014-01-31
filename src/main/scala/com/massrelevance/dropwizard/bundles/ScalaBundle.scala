@@ -1,7 +1,7 @@
 package com.massrelevance.dropwizard.bundles
 
-import com.codahale.dropwizard.Bundle
-import com.codahale.dropwizard.setup.{Bootstrap, Environment}
+import io.dropwizard.Bundle
+import io.dropwizard.setup.{Bootstrap, Environment}
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamInjectableProvider
 

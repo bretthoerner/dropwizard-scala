@@ -1,11 +1,11 @@
 // Basic project information
 name          := "dropwizard-scala"
 
-version       := "0.7.0-SNAPSHOT"
+version       := "0.7.0-rc1"
 
 organization  := "com.massrelevance"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.3"
 
 crossScalaVersions := Seq("2.9.1", "2.9.2", "2.9.3", "2.10.2")
 
@@ -23,14 +23,14 @@ scalacOptions <<= scalaVersion map { sv: String =>
 resolvers += "Local Maven Repository" at "file://" + Path.userHome.absolutePath + "/.m2/repository"
 
 libraryDependencies ++= Seq(
-    "com.codahale.dropwizard" % "dropwizard-core" % "0.7.0-SNAPSHOT",
-    "nl.grons" %% "metrics-scala" % "3.0.0",
-    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.2.2",
+    "io.dropwizard" % "dropwizard-core" % "0.7.0-rc1",
+    "nl.grons" %% "metrics-scala" % "3.0.4",
+    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.3.1",
     "org.scalatest" %% "scalatest" % "2.0.M5b" % "test",
     "org.mockito" % "mockito-core" % "1.9.5" % "test",
-    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-core" % "1.17.1" % "test",
-    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-inmemory" % "1.17.1" % "test",
-    "com.sun.jersey" % "jersey-client" % "1.17.1" % "test"
+    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-core" % "1.18" % "test",
+    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-inmemory" % "1.18" % "test",
+    "com.sun.jersey" % "jersey-client" % "1.18" % "test"
 )
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")

@@ -10,7 +10,7 @@ A fork of the original (now unmaintained) dropwizard-scala subproject of [Dropwi
 SBT information:
 
 ```scala
-libraryDependencies += "com.massrelevance" % "dropwizard-scala" % "0.6.2-1"
+libraryDependencies += "com.massrelevance" % "dropwizard-scala" % "0.7.0-rc1"
 ```
 
 ***
