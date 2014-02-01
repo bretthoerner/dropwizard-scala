@@ -15,19 +15,20 @@ libraryDependencies += "com.massrelevance" % "dropwizard-scala" % "0.7.0-rc1"
 
 ***
 
-Dropwizard services should extend `ScalaService` instead of `Service`
+Dropwizard services should extend `ScalaApplication` instead of `Application`
 and add `ScalaBundle`:
 
 ```scala
 
-    object ExampleService extends ScalaService[ExampleConfiguration]) {
+    object ExampleService extends ScalaApplication[ExampleConfiguration]) {
+      override def getName = "example"
+
       def initialize(bootstrap: Bootstrap[ExampleConfiguration]) {
-        bootstrap.setName("example")
         bootstrap.addBundle(new ScalaBundle)
       }
 
       def run(configuration: ExampleConfiguration, environment: Environment) {
-        environment.addResource(new ExampleResource)
+        env.jersey().register(new ExampleResource)
       }
     }
 ```
