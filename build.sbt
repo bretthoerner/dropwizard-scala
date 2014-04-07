@@ -1,7 +1,7 @@
 // Basic project information
 name          := "dropwizard-scala"
 
-version       := "0.7.0-rc1"
+version       := "0.7.0"
 
 organization  := "com.massrelevance"
 
@@ -23,7 +23,7 @@ scalacOptions <<= scalaVersion map { sv: String =>
 resolvers += "Local Maven Repository" at "file://" + Path.userHome.absolutePath + "/.m2/repository"
 
 libraryDependencies ++= Seq(
-    "io.dropwizard" % "dropwizard-core" % "0.7.0-rc1",
+    "io.dropwizard" % "dropwizard-core" % "0.7.0",
     "nl.grons" %% "metrics-scala" % "3.0.4",
     "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.3.1",
     "org.scalatest" %% "scalatest" % "2.0.M5b" % "test",
