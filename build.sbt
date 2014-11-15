@@ -5,7 +5,7 @@ version       := "0.7.1"
 
 organization  := "com.massrelevance"
 
-scalaVersion := "2.11.1"
+scalaVersion := "2.11.4"
 
 crossScalaVersions := Seq("2.10.0", "2.11.0")
 
@@ -24,13 +24,13 @@ resolvers += "Local Maven Repository" at "file://" + Path.userHome.absolutePath 
 
 libraryDependencies ++= Seq(
     "io.dropwizard" % "dropwizard-core" % "0.7.1",
-    "nl.grons" %% "metrics-scala" % "3.2.0",
-    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.4.1",
-    "org.scalatest" %% "scalatest" % "2.2.0" % "test",
-    "org.mockito" % "mockito-core" % "1.9.5" % "test",
-    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-core" % "1.18.1" % "test",
-    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-inmemory" % "1.18.1" % "test",
-    "com.sun.jersey" % "jersey-client" % "1.18.1" % "test"
+    "nl.grons" %% "metrics-scala" % "3.3.0",
+    "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.4.3",
+    "org.scalatest" %% "scalatest" % "2.2.2" % "test",
+    "org.mockito" % "mockito-core" % "1.10.8" % "test",
+    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-core" % "1.18.2" % "test",
+    "com.sun.jersey.jersey-test-framework" % "jersey-test-framework-inmemory" % "1.18.2" % "test",
+    "com.sun.jersey" % "jersey-client" % "1.18.2" % "test"
 )
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
