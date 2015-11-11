@@ -3,7 +3,7 @@ package com.massrelevance.dropwizard.scala.inject
 import com.sun.jersey.api.ParamException
 import com.sun.jersey.api.core.HttpContext
 import com.sun.jersey.server.impl.inject.AbstractHttpContextInjectable
-import com.sun.jersey.server.impl.model.parameter.multivalued.{MultivaluedParameterExtractor, ExtractorContainerException}
+import com.sun.jersey.server.impl.model.parameter.multivalued.{ExtractorContainerException, MultivaluedParameterExtractor}
 
 class ScalaCollectionQueryParamInjectable(extractor: MultivaluedParameterExtractor,
                                           decode: Boolean)

@@ -1,22 +1,24 @@
 package com.massrelevance.dropwizard.scala.jersey.tests
 
-import com.sun.jersey.test.framework.{LowLevelAppDescriptor, AppDescriptor, JerseyTest}
-import javax.ws.rs.{Path, Produces, GET, QueryParam}
 import javax.ws.rs.core.MediaType
+import javax.ws.rs.{GET, Path, Produces, QueryParam}
+
+import com.codahale.metrics.MetricRegistry
+import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamInjectableProvider
+import com.sun.jersey.test.framework.{AppDescriptor, JerseyTest, LowLevelAppDescriptor}
 import io.dropwizard.jersey.DropwizardResourceConfig
 import junit.framework.Assert
 import org.junit.Test
-import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamInjectableProvider
-import com.codahale.metrics.MetricRegistry
 
 class OptionTest extends JerseyTest {
+
   @Path("/")
   @Produces(Array(MediaType.APPLICATION_JSON))
   class ExampleResource {
     @Path("/opt/")
     @GET
     def none(@QueryParam("id") id: Option[String]): Boolean = {
-      id == None
+      id.isEmpty
     }
 
     @Path("/string/")

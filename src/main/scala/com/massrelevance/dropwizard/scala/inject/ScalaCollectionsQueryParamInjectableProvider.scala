@@ -1,19 +1,21 @@
 package com.massrelevance.dropwizard.scala.inject
 
-import javax.ws.rs.QueryParam
-import javax.ws.rs.ext.Provider
-import com.sun.jersey.api.model.Parameter
-import com.sun.jersey.core.spi.component.{ProviderServices, ComponentScope, ComponentContext}
-import com.sun.jersey.spi.inject.{Injectable, InjectableProvider}
-import com.sun.jersey.server.impl.model.parameter.multivalued.{StringReaderFactory, MultivaluedParameterExtractorFactory, MultivaluedParameterExtractor}
 import java.lang.reflect.{ParameterizedType, Type}
-import com.fasterxml.jackson.module.scala.util.CompanionSorter
-import collection.{immutable, mutable}
-import collection.generic.GenericCompanion
+import javax.ws.rs.QueryParam
 import javax.ws.rs.core.Context
+import javax.ws.rs.ext.Provider
+
+import com.fasterxml.jackson.module.scala.util.CompanionSorter
+import com.sun.jersey.api.model.Parameter
+import com.sun.jersey.core.spi.component.{ComponentContext, ComponentScope, ProviderServices}
+import com.sun.jersey.server.impl.model.parameter.multivalued.{MultivaluedParameterExtractor, MultivaluedParameterExtractorFactory, StringReaderFactory}
+import com.sun.jersey.spi.inject.{Injectable, InjectableProvider}
+
+import scala.collection.generic.GenericCompanion
+import scala.collection.{immutable, mutable}
 
 @Provider
-class ScalaCollectionsQueryParamInjectableProvider (@Context services: ProviderServices) extends InjectableProvider[QueryParam, Parameter] {
+class ScalaCollectionsQueryParamInjectableProvider(@Context services: ProviderServices) extends InjectableProvider[QueryParam, Parameter] {
   def getScope = ComponentScope.PerRequest
 
   def getInjectable(ic: ComponentContext, a: QueryParam, c: Parameter): Injectable[_] = {
@@ -66,7 +68,11 @@ class ScalaCollectionsQueryParamInjectableProvider (@Context services: ProviderS
     .toList
 
   private[this] def collectionCompanionFor(klass: Class[_]): Option[GenericCompanion[Iterable]] =
-    COLLECTION_COMPANIONS find { _._1.isAssignableFrom(klass) } map { _._2 }
+    COLLECTION_COMPANIONS find {
+      _._1.isAssignableFrom(klass)
+    } map {
+      _._2
+    }
 
   private[this] def unpack(param: Parameter, typ: ParameterizedType): Parameter = {
     /**

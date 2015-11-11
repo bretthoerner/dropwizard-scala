@@ -1,12 +1,11 @@
 package com.massrelevance.dropwizard.scala.inject.tests
 
-import com.sun.jersey.core.util.MultivaluedMapImpl
 import com.massrelevance.dropwizard.scala.inject.ScalaOptionExtractor
 import com.massrelevance.dropwizard.scala.util.StringExtractor
-import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import com.sun.jersey.core.util.MultivaluedMapImpl
+import org.scalatest.{FlatSpec, Matchers}
 
-class ScalaOptionExtractorTest extends FlatSpec with ShouldMatchers {
+class ScalaOptionExtractorTest extends FlatSpec with Matchers {
   val extractor = new ScalaOptionExtractor(new StringExtractor("name", "default"))
 
   "Extracting a parameter" should "have a name" in {
@@ -24,14 +23,14 @@ class ScalaOptionExtractorTest extends FlatSpec with ShouldMatchers {
     params.add("name", "three")
 
     val result = extractor.extract(params)
-    result should equal (Some("one"))
+    result should equal(Some("one"))
   }
 
   it should "use the default value if no parameter exists" in {
     val params = new MultivaluedMapImpl()
 
     val result = extractor.extract(params)
-    result should equal (Some("default"))
+    result should equal(Some("default"))
   }
 
   "Extracting a parameter with no default value" should "return None" in {
@@ -40,6 +39,6 @@ class ScalaOptionExtractorTest extends FlatSpec with ShouldMatchers {
     val params = new MultivaluedMapImpl()
 
     val result = extractor.extract(params)
-    result should equal (None)
+    result should equal(None)
   }
 }
