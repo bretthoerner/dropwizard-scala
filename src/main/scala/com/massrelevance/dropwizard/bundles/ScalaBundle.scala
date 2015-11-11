@@ -1,9 +1,9 @@
 package com.massrelevance.dropwizard.bundles
 
-import io.dropwizard.Bundle
-import io.dropwizard.setup.{Bootstrap, Environment}
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamInjectableProvider
+import io.dropwizard.Bundle
+import io.dropwizard.setup.{Bootstrap, Environment}
 
 class ScalaBundle extends Bundle {
   def initialize(bootstrap: Bootstrap[_]) {

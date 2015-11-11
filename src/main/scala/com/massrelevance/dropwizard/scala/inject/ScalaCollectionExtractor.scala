@@ -1,10 +1,12 @@
 package com.massrelevance.dropwizard.scala.inject
 
-import scala.collection.JavaConversions._
 import javax.ws.rs.core.MultivaluedMap
-import com.sun.jersey.server.impl.model.parameter.multivalued.MultivaluedParameterExtractor
-import scala.collection.generic.GenericCompanion
+
 import com.sun.jersey.core.util.MultivaluedMapImpl
+import com.sun.jersey.server.impl.model.parameter.multivalued.MultivaluedParameterExtractor
+
+import scala.collection.JavaConversions._
+import scala.collection.generic.GenericCompanion
 
 /**
  * Given a parameter name, a possibly-null default value, and a collection
@@ -13,7 +15,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl
  * an empty collection.
  */
 class ScalaCollectionExtractor[+CC[X] <: Traversable[X]](companion: GenericCompanion[CC],
-                                                                     extractor: MultivaluedParameterExtractor)
+                                                         extractor: MultivaluedParameterExtractor)
   extends MultivaluedParameterExtractor {
 
   def getName = extractor.getName
