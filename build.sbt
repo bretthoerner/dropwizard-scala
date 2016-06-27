@@ -5,7 +5,7 @@ version := "0.8.5"
 
 organization  := "com.massrelevance"
 
-crossScalaVersions := Seq("2.10.4", "2.11.7")
+crossScalaVersions := Seq("2.10.6", "2.11.8")
 
 scalacOptions <<= scalaVersion map { sv: String =>
   sv match {
@@ -20,12 +20,12 @@ resolvers += "Local Maven Repository" at "file://" + Path.userHome.absolutePath 
 
 libraryDependencies ++= Seq(
   "io.dropwizard" % "dropwizard-core" % "0.8.5",
-  "nl.grons" %% "metrics-scala" % "3.3.0",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.4.3",
-  "org.scalatest" %% "scalatest" % "2.2.2" % "test",
-  "org.mockito" % "mockito-core" % "1.10.8" % "test",
-  "org.glassfish.jersey.test-framework" % "jersey-test-framework-core" % "2.6" % "test",
-  "org.glassfish.jersey.core" % "jersey-client" % "2.16" % "test"
+  "nl.grons" %% "metrics-scala" % "3.5.4",
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.7.4",
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test",
+  "org.mockito" % "mockito-core" % "1.10.19" % "test",
+  "org.glassfish.jersey.test-framework" % "jersey-test-framework-core" % "2.23.1" % "test",
+  "org.glassfish.jersey.core" % "jersey-client" % "2.23.1" % "test"
 )
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
