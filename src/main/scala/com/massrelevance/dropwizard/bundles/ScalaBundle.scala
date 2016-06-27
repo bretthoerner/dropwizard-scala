@@ -1,9 +1,9 @@
 package com.massrelevance.dropwizard.bundles
 
+import com.fasterxml.jackson.module.scala.DefaultScalaModule
+import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamFactoryProvider
 import io.dropwizard.Bundle
 import io.dropwizard.setup.{Bootstrap, Environment}
-import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamInjectableProvider
 
 class ScalaBundle extends Bundle {
   def initialize(bootstrap: Bootstrap[_]) {
@@ -11,6 +11,6 @@ class ScalaBundle extends Bundle {
   }
 
   def run(environment: Environment) {
-    environment.jersey.getResourceConfig.getClasses.add(classOf[ScalaCollectionsQueryParamInjectableProvider])
+    environment.jersey.register(classOf[ScalaCollectionsQueryParamFactoryProvider])
   }
 }

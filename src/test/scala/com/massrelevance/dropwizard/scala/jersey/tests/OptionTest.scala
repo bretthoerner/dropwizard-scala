@@ -1,22 +1,22 @@
 package com.massrelevance.dropwizard.scala.jersey.tests
 
-import com.sun.jersey.test.framework.{LowLevelAppDescriptor, AppDescriptor, JerseyTest}
-import javax.ws.rs.{Path, Produces, GET, QueryParam}
-import javax.ws.rs.core.MediaType
-import io.dropwizard.jersey.DropwizardResourceConfig
-import junit.framework.Assert
-import org.junit.Test
-import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamInjectableProvider
-import com.codahale.metrics.MetricRegistry
+import javax.ws.rs.core.{Application, MediaType}
+import javax.ws.rs.{GET, Path, Produces, QueryParam}
+
+import com.massrelevance.dropwizard.scala.inject.ScalaCollectionsQueryParamFactoryProvider
+import org.glassfish.jersey.server.ResourceConfig
+import org.glassfish.jersey.test.JerseyTest
+import org.junit.{Test, Assert}
 
 class OptionTest extends JerseyTest {
+
   @Path("/")
   @Produces(Array(MediaType.APPLICATION_JSON))
   class ExampleResource {
     @Path("/opt/")
     @GET
     def none(@QueryParam("id") id: Option[String]): Boolean = {
-      id == None
+      id.isEmpty
     }
 
     @Path("/string/")
@@ -48,45 +48,45 @@ class OptionTest extends JerseyTest {
     }
   }
 
-  override def configure(): AppDescriptor = {
-    val config = DropwizardResourceConfig.forTesting(new MetricRegistry)
-    config.getClasses.add(classOf[ScalaCollectionsQueryParamInjectableProvider])
-    config.getSingletons.add(new ExampleResource())
-    new LowLevelAppDescriptor.Builder(config).build()
+  override def configure(): Application = {
+    val config = new ResourceConfig()
+    config.register(classOf[ScalaCollectionsQueryParamFactoryProvider])
+    config.register(classOf[ExampleResource])
+    config
   }
 
   @Test
   def injectsNoneInsteadOfNull() {
-    Assert.assertTrue(client().resource("/opt/").get(classOf[Boolean]))
+    Assert.assertTrue(target("/opt/").request.get().getEntity == Boolean.getClass)
   }
 
   @Test
   def injectsEmptyString() {
-    Assert.assertEquals("", client().resource("/string/").queryParam("id", "").get(classOf[String]))
+    Assert.assertEquals("", client().target("/string/").queryParam("id", "").request().get(classOf[String]))
   }
 
   @Test
   def injectsString() {
-    Assert.assertEquals("id", client().resource("/string/").queryParam("id", "id").get(classOf[String]))
+    Assert.assertEquals("id", client().target("/string/").queryParam("id", "id").request().get(classOf[String]))
   }
 
   @Test
   def injectsInt() {
-    Assert.assertEquals(200, client().resource("/int/").queryParam("id", "200").get(classOf[Int]))
+    Assert.assertEquals(200, client().target("/int/").queryParam("id", "200").request().get(classOf[Int]))
   }
 
   @Test
   def injectsLong() {
-    Assert.assertEquals(200L, client().resource("/long/").queryParam("id", "200").get(classOf[Long]))
+    Assert.assertEquals(200L, client().target("/long/").queryParam("id", "200").request().get(classOf[Long]))
   }
 
   @Test
   def injectsBooleanTrue() {
-    Assert.assertTrue(client().resource("/boolean/").queryParam("id", "true").get(classOf[Boolean]))
+    Assert.assertTrue(client().target("/boolean/").queryParam("id", "true").request().get(classOf[Boolean]))
   }
 
   @Test
   def injectsBooleanFalse() {
-    Assert.assertFalse(client().resource("/boolean/").queryParam("id", "false").get(classOf[Boolean]))
+    Assert.assertFalse(client().target("/boolean/").queryParam("id", "false").request().get(classOf[Boolean]))
   }
 }

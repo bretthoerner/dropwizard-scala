@@ -10,28 +10,74 @@ A fork of the original (now unmaintained) dropwizard-scala subproject of [Dropwi
 SBT information:
 
 ```scala
-libraryDependencies += "com.massrelevance" %% "dropwizard-scala" % "0.7.1"
+libraryDependencies += "com.massrelevance" %% "dropwizard-scala" % "0.8.0"
 ```
 
 ***
 
 Dropwizard services should extend `ScalaApplication` instead of `Application`
-and add `ScalaBundle`:
+and add `ScalaBundle` (See ExampleService below).
+
+The following code snippet is all the elements required to create a Dropwizard resource and get it up and running
 
 ```scala
 
-    object ExampleService extends ScalaApplication[ExampleConfiguration]) {
-      override def getName = "example"
+import javax.ws.rs.{GET, Path, Produces, QueryParam}
 
-      def initialize(bootstrap: Bootstrap[ExampleConfiguration]) {
-        bootstrap.addBundle(new ScalaBundle)
-      }
+import com.codahale.metrics.annotation.Timed
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.massrelevance.dropwizard.ScalaApplication
+import com.massrelevance.dropwizard.bundles.ScalaBundle
+import io.dropwizard.Configuration
+import io.dropwizard.setup.{Bootstrap, Environment}
+import org.hibernate.validator.constraints.NotEmpty
 
-      def run(configuration: ExampleConfiguration, environment: Environment) {
-        env.jersey().register(new ExampleResource)
-      }
-    }
+object ExampleService extends ScalaApplication[ExampleConfiguration] {
+
+  override def getName = "example"
+
+  def initialize(bootstrap: Bootstrap[ExampleConfiguration]) {
+    bootstrap.addBundle(new ScalaBundle)
+  }
+
+  def run(configuration: ExampleConfiguration, environment: Environment) {
+    environment.jersey().register(new ExampleResource(configuration.defaultName, configuration.template))
+  }
+}
+
+class ExampleConfiguration extends Configuration {
+
+  @NotEmpty
+  @JsonProperty
+  val defaultName: String = "world!"
+
+  @NotEmpty
+  @JsonProperty
+  val template: String = "Hello %s"
+}
+
+@Path("/greeting")
+@Produces(Array("application/json"))
+class ExampleResource(val defaultName: String, val template: String) {
+
+  @GET
+  @Timed
+  def sayHello(@QueryParam("name") name: Option[String]): String = {
+    String.format(template, name.getOrElse(defaultName))
+  }
+}
+
+
 ```
+
+Run it using:
+
+`java -jar project.jar server`
+
+Test it by going to:
+
+`http://localhost:8080/greeting`
+
 
 Features
 ========
