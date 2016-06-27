@@ -10,7 +10,7 @@ A fork of the original (now unmaintained) dropwizard-scala subproject of [Dropwi
 SBT information:
 
 ```scala
-libraryDependencies += "com.massrelevance" %% "dropwizard-scala" % "0.8.0"
+libraryDependencies += "com.massrelevance" %% "dropwizard-scala" % "0.8.5"
 ```
 
 ***
@@ -36,7 +36,7 @@ object ExampleService extends ScalaApplication[ExampleConfiguration] {
 
   override def getName = "example"
 
-  def initialize(bootstrap: Bootstrap[ExampleConfiguration]) {
+  override def initialize(bootstrap: Bootstrap[ExampleConfiguration]) {
     bootstrap.addBundle(new ScalaBundle)
   }
 
@@ -57,7 +57,7 @@ class ExampleConfiguration extends Configuration {
 }
 
 @Path("/greeting")
-@Produces(Array("application/json"))
+@Produces(Array("text/plain"))
 class ExampleResource(val defaultName: String, val template: String) {
 
   @GET
@@ -66,7 +66,6 @@ class ExampleResource(val defaultName: String, val template: String) {
     String.format(template, name.getOrElse(defaultName))
   }
 }
-
 
 ```
 
