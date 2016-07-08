@@ -1,7 +1,7 @@
 // Basic project information
 name := "dropwizard-scala"
 
-version := "0.8.5"
+version := "0.8.5.1"
 
 organization  := "com.massrelevance"
 
@@ -21,7 +21,7 @@ resolvers += "Local Maven Repository" at "file://" + Path.userHome.absolutePath 
 libraryDependencies ++= Seq(
   "io.dropwizard" % "dropwizard-core" % "0.8.5",
   "nl.grons" %% "metrics-scala" % "3.5.4",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.7.4",
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.5.3",
   "org.scalatest" %% "scalatest" % "2.2.6" % "test",
   "org.mockito" % "mockito-core" % "1.10.19" % "test",
   "org.glassfish.jersey.test-framework" % "jersey-test-framework-core" % "2.23.1" % "test",
